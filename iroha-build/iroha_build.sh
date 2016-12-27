@@ -13,7 +13,7 @@ export IROHA_HOME=~/iroha
 export IROHA_DEST=/usr/local/iroha
 
 cd ~
-git clone --recursive https://github.com/hyperledger/iroha.git iroha
+git clone -b test2peersdown --recursive https://github.com/branciard/iroha.git iroha
 
 sudo apt -y install autoconf automake libtool pkg-config
 
