@@ -14,17 +14,61 @@ export IROHA_DEST=/usr/local/iroha
 
 cd ~
 
-if [ -z "$1" ]
+BRANCH=""
+REPO=""
+while [[ $# -gt 1 ]]
+do
+key="$1"
+
+case $key in
+    -b|--branch)
+    BRANCH="$2"
+    shift # past argument
+    ;;
+    -r|--repo)
+    REPO="$2"
+    shift # past argument
+    ;;
+    *)
+     echo "Programming error"
+     exit 3
+    ;;
+esac
+shift # past argument or value
+done
+
+if [ "" == "${BRANCH}" ]
 then
-	git clone --recursive https://github.com/branciard/iroha.git iroha
-else
-	git clone -b $1 --recursive https://github.com/branciard/iroha.git iroha
-	if [ $? > 0 ]
+	if [ "" == "${REPO}" ]
 	then
-    		echo " error : cannot clone git branch $1"	
-		exit 1
-	fi	
+		git clone --recursive https://github.com/branciard/iroha.git iroha
+	else
+		git clone --recursive https://github.com/${REPO}/iroha.git iroha
+        	if [ $? > 0 ]
+        	then
+                	echo " error : cannot git clone https://github.com/${REPO}/iroha.git"
+                	exit 1
+        	fi 
+	fi
+else
+        if [ "" ==  "${REPO}" ]
+        then
+                git clone -b $BRANCH --recursive https://github.com/branciard/iroha.git iroha
+		if [ $? > 0 ]
+        	then
+               		echo " error : cannot clone git branch $BRANCH --recursive https://github.com/branciard/iroha.git"
+                	exit 1
+       		fi 
+	else
+                git clone -b $BRANCH --recursive https://github.com/${REPO}/iroha.git iroha
+                if [ $? > 0 ]
+                then
+                        echo " error : cannot clone git branch $BRANCH --recursive https://github.com/${REPO}/iroha.git"
+                        exit 1
+                fi
+        fi
 fi
+
 
 sudo apt -y install autoconf automake libtool pkg-config
 
