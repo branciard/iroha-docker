@@ -44,28 +44,13 @@ then
 		git clone --recursive https://github.com/branciard/iroha.git iroha
 	else
 		git clone --recursive https://github.com/${REPO}/iroha.git iroha
-        	if [ $? > 0 ]
-        	then
-                	echo " error : cannot git clone https://github.com/${REPO}/iroha.git"
-                	exit 1
-        	fi 
 	fi
 else
         if [ "" ==  "${REPO}" ]
         then
                 git clone -b $BRANCH --recursive https://github.com/branciard/iroha.git iroha
-		if [ $? > 0 ]
-        	then
-               		echo " error : cannot clone git branch $BRANCH --recursive https://github.com/branciard/iroha.git"
-                	exit 1
-       		fi 
 	else
                 git clone -b $BRANCH --recursive https://github.com/${REPO}/iroha.git iroha
-                if [ $? > 0 ]
-                then
-                        echo " error : cannot clone git branch $BRANCH --recursive https://github.com/${REPO}/iroha.git"
-                        exit 1
-                fi
         fi
 fi
 
