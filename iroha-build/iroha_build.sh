@@ -13,7 +13,18 @@ export IROHA_HOME=~/iroha
 export IROHA_DEST=/usr/local/iroha
 
 cd ~
-git clone -b test2peersdown --recursive https://github.com/branciard/iroha.git iroha
+
+if [ -z "$1" ]
+then
+	git clone --recursive https://github.com/branciard/iroha.git iroha
+else
+	git clone -b $1 --recursive https://github.com/branciard/iroha.git iroha
+	if [ $? > 0 ]
+	then
+    		echo " error : cannot clone git branch $1"	
+		exit 1
+	fi	
+fi
 
 sudo apt -y install autoconf automake libtool pkg-config
 
